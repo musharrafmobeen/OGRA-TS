@@ -10,6 +10,11 @@ import {
   updateVehicleOMCHistory,
 } from "../controllers/vehicles.controller";
 import { authentication } from "../middlewares/auth";
+import {
+  createVehicleValidation,
+  updateVehicleValidation,
+  deleteVehicleValidation,
+} from "../validations/vehicles.validations";
 
 router.get(
   "/",
@@ -51,10 +56,11 @@ router.post(
     "OMCs Supply Managers",
     "Data Entry Staff",
   ]),
+  createVehicleValidation,
   addVehicle
 );
-router.patch("/:_id", updateVehicle);
+router.patch("/:_id", updateVehicleValidation, updateVehicle);
 router.patch("/updateOMC/:_id", updateVehicleOMCHistory);
-router.delete("/:_id", deleteVehicle);
+router.delete("/:_id", deleteVehicleValidation, deleteVehicle);
 
 export default router;

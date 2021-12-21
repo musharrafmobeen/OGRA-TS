@@ -9,6 +9,11 @@ import {
   getPersonalDispatches,
 } from "../controllers/dispatch.controller";
 import { authentication } from "../middlewares/auth";
+import {
+  createDispatchValidation,
+  updateDispatchValidation,
+  deleteDispatchValidation,
+} from "../validations/dispatch.validations";
 
 router.get(
   "/",
@@ -28,8 +33,18 @@ router.get(
   getReceivingDispatches
 );
 
-router.post("/", authentication(["OMCs Supply Managers"]), addDispatch);
-router.patch("/:_id", authentication(["OMCs Supply Managers"]), updateDispatch);
-router.delete("/:_id", deleteDispatch);
+router.post(
+  "/",
+  authentication(["OMCs Supply Managers"]),
+  createDispatchValidation,
+  addDispatch
+);
+router.patch(
+  "/:_id",
+  authentication(["OMCs Supply Managers"]),
+  updateDispatchValidation,
+  updateDispatch
+);
+router.delete("/:_id", deleteDispatchValidation, deleteDispatch);
 
 export default router;

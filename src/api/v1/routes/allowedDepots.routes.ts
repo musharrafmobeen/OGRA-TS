@@ -6,7 +6,13 @@ import {
   updateAllowedDepot,
   deleteAllowedDepot,
 } from "../controllers/allowedDepots.controller";
-// const carriageContractorControllers = require("../controllers/carriageContractor");
+
+import {
+  createAllowedDepotValidation,
+  updateAllowedDepotValidation,
+  deleteAllowedDepotValidation,
+} from "../validations/allowedDepots.validations";
+
 import { authentication } from "../middlewares/auth";
 
 router.get(
@@ -18,8 +24,8 @@ router.get(
   ]),
   getAllowedDepots
 );
-router.post("/", createAllowedDepot);
-router.patch("/:_id", updateAllowedDepot);
-router.delete("/:_id", deleteAllowedDepot);
+router.post("/", createAllowedDepotValidation, createAllowedDepot);
+router.patch("/:_id", updateAllowedDepotValidation, updateAllowedDepot);
+router.delete("/:_id", deleteAllowedDepotValidation, deleteAllowedDepot);
 
 export default router;

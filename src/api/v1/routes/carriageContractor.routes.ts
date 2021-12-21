@@ -6,11 +6,24 @@ import {
   updateCarriageContractor,
   deleteCarriageContractor,
 } from "../controllers/carriageContractor.controller";
-// const carriageContractorControllers = require("../controllers/carriageContractor");
+
+import {
+  createCarriageContractorValidation,
+  updateCarriageContractorValidation,
+  deleteCarriageContractorValidation,
+} from "../validations/carriageContractor.validations";
 
 router.get("/", getCarriageContractors);
-router.post("/", createCarriageContractor);
-router.patch("/:_id", updateCarriageContractor);
-router.delete("/:_id", deleteCarriageContractor);
+router.post("/", createCarriageContractorValidation, createCarriageContractor);
+router.patch(
+  "/:_id",
+  updateCarriageContractorValidation,
+  updateCarriageContractor
+);
+router.delete(
+  "/:_id",
+  deleteCarriageContractorValidation,
+  deleteCarriageContractor
+);
 
 export default router;

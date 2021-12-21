@@ -8,13 +8,24 @@ import {
 } from "../controllers/depots.controller";
 import { authentication } from "../middlewares/auth";
 
+import {
+  createDepotValidation,
+  updateDepotValidation,
+  deleteDepotValidation,
+} from "../validations/depots.validations";
+
 router.get(
   "/",
   authentication(["OMCs Management", "OGRA Technical Team"]),
   getDepots
 );
-router.post("/", authentication(["OMCs Management"]), addDepot);
-router.patch("/:_id", updateDepot);
-router.delete("/:_id", deleteDepot);
+router.post(
+  "/",
+  authentication(["OMCs Management"]),
+  createDepotValidation,
+  addDepot
+);
+router.patch("/:_id", updateDepotValidation, updateDepot);
+router.delete("/:_id", deleteDepotValidation, deleteDepot);
 
 export default router;

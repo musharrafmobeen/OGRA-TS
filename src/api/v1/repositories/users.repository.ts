@@ -59,6 +59,8 @@ const userLogInRespository = async (data: {
       //@ts-ignore
       .cache();
 
+    console.log(userDoc);
+
     if (userDoc) {
       if (bcrypt.compareSync(data.password, userDoc.password)) {
         const user = {
