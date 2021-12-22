@@ -1,7 +1,8 @@
 import ifemModel from "../models/ifemLocation.model";
 import mongoose from "mongoose";
+import { ifemLocation } from "../interfaces/ifemLocation";
 
-const addIfemLocationRepository = async (data: any) => {
+const addIfemLocationRepository = async (data: ifemLocation) => {
   try {
     const { ifemCode, district, ifemLocationName } = data;
     const IFEM_Location = await ifemModel
@@ -51,7 +52,7 @@ const getIfemLocationRepository = async () => {
 
 const updateIfemLocationRepository = async (
   _id: mongoose.Types.ObjectId,
-  data: any
+  data: ifemLocation
 ) => {
   try {
     const IFEM_Location = await ifemModel

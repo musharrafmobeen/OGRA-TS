@@ -8,8 +8,9 @@ import {
   deleteVehicleRepository,
 } from "../repositories/vehicles.repository";
 import mongoose from "mongoose";
+import { vehicle } from "../interfaces/vehicle";
 
-const addVehicleService = async (data: any) => {
+const addVehicleService = async (data: vehicle) => {
   try {
     return await addVehicleRepository(data);
   } catch (err: any) {
@@ -61,7 +62,7 @@ const getDeletedVehiclesService = async () => {
 
 const updateVehicleService = async (
   _id: mongoose.Types.ObjectId,
-  data: any
+  data: vehicle
 ) => {
   try {
     return await updateVehicleRepository(_id, data);
@@ -81,7 +82,7 @@ const updateVehicleService = async (
 
 const updateVehicleOMCHistoryService = async (
   _id: mongoose.Types.ObjectId,
-  data: any
+  data: vehicle
 ) => {
   try {
     return await updateVehicleOMCHistoryRepository(_id, data);

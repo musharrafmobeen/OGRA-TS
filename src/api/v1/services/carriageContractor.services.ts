@@ -5,8 +5,9 @@ import {
   deleteCarriageContractorRepository,
 } from "../repositories/carriageContractor.repository";
 import mongoose from "mongoose";
+import { carriageContractor } from "../interfaces/carriageContractor";
 
-const createCarriageContractorService = async (data: any) => {
+const createCarriageContractorService = async (data: carriageContractor) => {
   try {
     return await createCarriageContractorRepository(data);
   } catch (err: any) {
@@ -42,7 +43,7 @@ const getCarriageContractorsService = async () => {
 
 const updateCarriageContractorService = async (
   _id: mongoose.Types.ObjectId,
-  data: any
+  data: carriageContractor
 ) => {
   try {
     return await updateCarriageContractorRepository(_id, data);

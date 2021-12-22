@@ -19,7 +19,22 @@ import dispatchRoutes from "./api/v1/routes/dispatch.routes";
 import carriageContractorRoutes from "./api/v1/routes/carriageContractor.routes";
 import getDashboardCountsRoutes from "./api/v1/routes/dashBoardCounts.routes";
 
-const PORT = process.env.PORT || 5001;
+// const PORT = process.env.PORT || 5001;
+
+let argPort: string;
+let convertedPort: number;
+let PORT: any;
+
+try {
+  argPort = process.argv[process.argv.length - 1]
+    ? process.argv[process.argv.length - 1]
+    : "NO PORT GIVEN IN ARGUMENT";
+  convertedPort = parseInt(argPort);
+  PORT = convertedPort ? convertedPort : process.env.PORT || 5000;
+} catch (err) {
+  PORT = process.env.PORT || 5000;
+}
+
 dotenv.config();
 
 const uri =

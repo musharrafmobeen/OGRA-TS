@@ -5,8 +5,9 @@ import {
   deleteCityRepository,
 } from "../repositories/cities.repository";
 import mongoose from "mongoose";
+import { cities } from "../interfaces/cities";
 
-const createCityService = async (data: any) => {
+const createCityService = async (data: cities) => {
   try {
     return await createCityRepository(data);
   } catch (err: any) {
@@ -33,7 +34,10 @@ const getCitiesService = async () => {
   }
 };
 
-const updateCityService = async (_id: mongoose.Types.ObjectId, data: any) => {
+const updateCityService = async (
+  _id: mongoose.Types.ObjectId,
+  data: cities
+) => {
   try {
     return await updateCityRepository(_id, data);
   } catch (err: any) {

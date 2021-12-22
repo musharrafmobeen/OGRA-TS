@@ -1,8 +1,9 @@
 import OMCsModel from "../models/omcs.model";
 import allowedDepotModel from "../models/allowedDepots.model";
 import mongoose from "mongoose";
+import { OMC } from "../interfaces/OMC";
 
-const createOMCRespository = async (data: any) => {
+const createOMCRespository = async (data: OMC) => {
   try {
     let {
       OMCType,
@@ -95,7 +96,7 @@ const getAvailableDepotsRespository = async (OMC: mongoose.Types.ObjectId) => {
 
 const updateOMCRespository = async (
   _id: mongoose.Types.ObjectId,
-  data: any
+  data: OMC
 ) => {
   try {
     const OMC = await OMCsModel.findOneAndUpdate(

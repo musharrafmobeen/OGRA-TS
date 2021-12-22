@@ -1,7 +1,8 @@
 import allowedDepotModel from "../models/allowedDepots.model";
 import mongoose from "mongoose";
+import { allowedDepot } from "../interfaces/allowedDepot";
 
-const createAllowedDepotRepository = async (data: any) => {
+const createAllowedDepotRepository = async (data: allowedDepot) => {
   try {
     const { OMC, product, sourceDepot, destinationDepot, fromDate, toDate } =
       data;
@@ -81,7 +82,7 @@ const getAllowedDepotsRepository = async (
 
 const updateAllowedDepotRepository = async (
   _id: mongoose.Types.ObjectId,
-  data: any
+  data: allowedDepot
 ) => {
   try {
     const allowedDepot = await allowedDepotModel

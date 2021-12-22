@@ -5,8 +5,9 @@ import {
   deleteIfemLocationRepository,
 } from "../repositories/ifemLocation.repository";
 import mongoose from "mongoose";
+import { ifemLocation } from "../interfaces/ifemLocation";
 
-const addIfemLocationService = async (data: any) => {
+const addIfemLocationService = async (data: ifemLocation) => {
   try {
     return addIfemLocationRepository(data);
   } catch (err: any) {
@@ -35,7 +36,7 @@ const getIfemLocationService = async () => {
 
 const updateIfemLocationService = async (
   _id: mongoose.Types.ObjectId,
-  data: any
+  data: ifemLocation
 ) => {
   try {
     return updateIfemLocationRepository(_id, data);

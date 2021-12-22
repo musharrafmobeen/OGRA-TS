@@ -1,7 +1,8 @@
 import districtModel from "../models/districts.model";
 import mongoose from "mongoose";
+import { districts } from "../interfaces/districts";
 
-const createDistrictRepository = async (data: any) => {
+const createDistrictRepository = async (data: districts) => {
   try {
     const { province, districtName } = data;
     const district = await districtModel
@@ -48,7 +49,7 @@ const getDistrictsRepository = async () => {
 
 const updateDistrictRepository = async (
   _id: mongoose.Types.ObjectId,
-  data: any
+  data: districts
 ) => {
   try {
     const district = await districtModel

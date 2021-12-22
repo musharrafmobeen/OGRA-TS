@@ -1,7 +1,8 @@
 import cityModel from "../models/cities.model";
 import mongoose from "mongoose";
+import { cities } from "../interfaces/cities";
 
-const createCityRepository = async (data: any) => {
+const createCityRepository = async (data: cities) => {
   try {
     const { cityName, district } = data;
     const city = await cityModel.findOne({ cityName }).exec();
@@ -50,7 +51,7 @@ const getCitiesRepository = async () => {
 
 const updateCityRepository = async (
   _id: mongoose.Types.ObjectId,
-  data: any
+  data: cities
 ) => {
   try {
     const city = await cityModel

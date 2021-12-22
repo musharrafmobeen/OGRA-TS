@@ -7,8 +7,9 @@ import {
   deleteDispatchRespository,
 } from "../repositories/dispatch.repository";
 import mongoose from "mongoose";
+import { dispatch } from "../interfaces/dispatch";
 
-const addDispatchService = async (data: any) => {
+const addDispatchService = async (data: dispatch) => {
   try {
     return await addDispatchRespository(data);
   } catch (err: any) {

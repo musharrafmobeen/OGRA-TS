@@ -5,8 +5,9 @@ import {
   deleteDistrictRepository,
 } from "../repositories/districts.repository";
 import mongoose from "mongoose";
+import { districts } from "../interfaces/districts";
 
-const createDistrictService = async (data: any) => {
+const createDistrictService = async (data: districts) => {
   try {
     return await createDistrictRepository(data);
   } catch (err: any) {
@@ -35,7 +36,7 @@ const getDistrictsService = async () => {
 
 const updateDistrictService = async (
   _id: mongoose.Types.ObjectId,
-  data: any
+  data: districts
 ) => {
   try {
     return await updateDistrictRepository(_id, data);

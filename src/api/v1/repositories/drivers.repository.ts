@@ -1,7 +1,8 @@
 import driversModel from "../models/drivers.model";
 import mongoose from "mongoose";
+import { driver } from "../interfaces/drivers";
 
-const addDriverRepository = async (data: any) => {
+const addDriverRepository = async (data: driver) => {
   try {
     let {
       currentlyAssignedJob,
@@ -92,7 +93,7 @@ const getDriversRepository = async (
 
 const updateDriverRepository = async (
   _id: mongoose.Types.ObjectId,
-  data: any
+  data: driver
 ) => {
   try {
     if (data.currentlyAssignedJob === "") {

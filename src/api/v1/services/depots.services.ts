@@ -5,8 +5,9 @@ import {
   deleteDepotRepository,
 } from "../repositories/depots.repository";
 import mongoose from "mongoose";
+import { depots } from "../interfaces/depots";
 
-const addDepotService = async (data: any) => {
+const addDepotService = async (data: depots) => {
   try {
     return await addDepotRepository(data);
   } catch (err: any) {
@@ -36,7 +37,10 @@ const getDepotsService = async (
   }
 };
 
-const updateDepotService = async (_id: mongoose.Types.ObjectId, data: any) => {
+const updateDepotService = async (
+  _id: mongoose.Types.ObjectId,
+  data: depots
+) => {
   try {
     return await updateDepotRepository(_id, data);
   } catch (err: any) {

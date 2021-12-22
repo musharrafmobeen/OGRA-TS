@@ -1,5 +1,3 @@
-// import { NextFunction, Request, Response } from "express";
-// import { createdResponse } from "../helpers/responses";
 import {
   createUserRespository,
   getUsersRespository,
@@ -9,14 +7,8 @@ import {
   updateUserRespository,
   deleteUserRespository,
 } from "../repositories/users.repository";
-import userModel from "../models/users.model";
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import { throwError } from "../helpers/errorHandler";
 import { userData } from "../interfaces/users";
-import { OMC } from "../interfaces/OMC";
-import { getSalt, getSecretKey } from "../helpers/environmentVariables";
 
 const createUserService = async (data: userData) => {
   try {

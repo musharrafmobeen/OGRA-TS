@@ -5,6 +5,7 @@ import omcModel from "../models/omcs.model";
 import vehiclesModel from "../models/vehicles.model";
 import driversModel from "../models/drivers.model";
 import mongoose from "mongoose";
+import { dispatch } from "../interfaces/dispatch";
 
 const driversUpdate = async (Drivers: any, _id: mongoose.Types.ObjectId) => {
   let data = [];
@@ -23,7 +24,7 @@ const driversUpdate = async (Drivers: any, _id: mongoose.Types.ObjectId) => {
   return data;
 };
 
-const addDispatchRespository = async (data: any) => {
+const addDispatchRespository = async (data: dispatch) => {
   try {
     let { OMC, id, vehicle, Drivers, destinationDepot } = data;
     const OMC_OBJ = await omcModel.findById(OMC).exec();

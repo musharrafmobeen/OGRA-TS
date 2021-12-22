@@ -1,7 +1,8 @@
 import carriageContractorModel from "../models/carriageContractor.model";
 import mongoose from "mongoose";
+import { carriageContractor } from "../interfaces/carriageContractor";
 
-const createCarriageContractorRepository = async (data: any) => {
+const createCarriageContractorRepository = async (data: carriageContractor) => {
   try {
     const { name } = data;
     const _id = new mongoose.Types.ObjectId();
@@ -47,7 +48,7 @@ const getCarriageContractorsRepository = async () => {
 
 const updateCarriageContractorRepository = async (
   _id: mongoose.Types.ObjectId,
-  data: any
+  data: carriageContractor
 ) => {
   try {
     const carriageContractor = await carriageContractorModel

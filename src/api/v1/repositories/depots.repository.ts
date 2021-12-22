@@ -1,7 +1,8 @@
 import depotModel from "../models/depots.model";
 import mongoose from "mongoose";
+import { depots } from "../interfaces/depots";
 
-const addDepotRepository = async (data: any) => {
+const addDepotRepository = async (data: depots) => {
   try {
     let { IFEM_Location, depotName, depotIncharge, OMC } = data;
     const storagePoint = await depotModel.findOne({ depotName }).exec();
@@ -72,7 +73,7 @@ const getDepotsRepository = async (
 
 const updateDepotRepository = async (
   _id: mongoose.Types.ObjectId,
-  data: any
+  data: depots
 ) => {
   try {
     if (data.depotIncharge === "") {

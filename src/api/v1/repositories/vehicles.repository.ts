@@ -1,8 +1,9 @@
 import vehiclesModel from "../models/vehicles.model";
 import OMCVehicleHistoryModel from "../models/omcVehicleHistory.model";
 import mongoose from "mongoose";
+import { vehicle } from "../interfaces/vehicle";
 
-const addVehicleRepository = async (data: any) => {
+const addVehicleRepository = async (data: vehicle) => {
   try {
     let { associatedDrivers, regNo, compartNo, OMC, currentlyAssignedJob } =
       data;
@@ -119,7 +120,7 @@ const getDeletedVehiclesRepository = async () => {
 
 const updateVehicleRepository = async (
   _id: mongoose.Types.ObjectId,
-  data: any
+  data: vehicle
 ) => {
   try {
     if (data.associatedDrivers === "") {
@@ -154,7 +155,7 @@ const updateVehicleRepository = async (
 
 const updateVehicleOMCHistoryRepository = async (
   _id: mongoose.Types.ObjectId,
-  data: any
+  data: vehicle
 ) => {
   try {
     const vehicle = await vehiclesModel

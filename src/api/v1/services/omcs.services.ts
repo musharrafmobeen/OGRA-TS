@@ -6,8 +6,9 @@ import {
   deleteOMCRespository,
 } from "../repositories/omcs.repository";
 import mongoose from "mongoose";
+import { OMC } from "../interfaces/OMC";
 
-const createOMCService = async (data: any) => {
+const createOMCService = async (data: OMC) => {
   try {
     return await createOMCRespository(data);
   } catch (err: any) {
@@ -44,7 +45,7 @@ const getAvailableDepotsService = async (OMC: mongoose.Types.ObjectId) => {
   }
 };
 
-const updateOMCService = async (_id: mongoose.Types.ObjectId, data: any) => {
+const updateOMCService = async (_id: mongoose.Types.ObjectId, data: OMC) => {
   try {
     return await updateOMCRespository(_id, data);
   } catch (err: any) {

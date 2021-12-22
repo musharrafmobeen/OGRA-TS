@@ -5,8 +5,9 @@ import {
   deleteDriverRepository,
 } from "../repositories/drivers.repository";
 import mongoose from "mongoose";
+import { driver } from "../interfaces/drivers";
 
-const addDriverService = async (data: any) => {
+const addDriverService = async (data: driver) => {
   try {
     return await addDriverRepository(data);
   } catch (err: any) {
@@ -43,7 +44,10 @@ const getDriversService = async (
   }
 };
 
-const updateDriverService = async (_id: mongoose.Types.ObjectId, data: any) => {
+const updateDriverService = async (
+  _id: mongoose.Types.ObjectId,
+  data: driver
+) => {
   try {
     return await updateDriverRepository(_id, data);
   } catch (err: any) {
