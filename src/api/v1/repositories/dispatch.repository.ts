@@ -97,7 +97,7 @@ const addDispatchRespository = async (data: dispatch) => {
       err = JSON.parse(err.message);
     } catch (err) {
       throw new Error(
-        '{"status":"Failed", "statusCode":500, "errorMessage":"Error occurred while Creating New Dispatche."}'
+        '{"status":"Failed", "statusCode":500, "errorMessage":"Error occurred while Creating New Dispatch."}'
       );
     }
     throw new Error(

@@ -5,6 +5,7 @@ import cors from "cors";
 import morgan from "morgan";
 import cluster from "cluster";
 import "./config/mongooseExecute";
+import formidable from "express-formidable";
 
 import omcRoutes from "./api/v1/routes/omcs.routes";
 import ifemRoutes from "./api/v1/routes/ifemLocation.routes";
@@ -18,6 +19,7 @@ import vehiclesRoutes from "./api/v1/routes/vehicles.routes";
 import dispatchRoutes from "./api/v1/routes/dispatch.routes";
 import carriageContractorRoutes from "./api/v1/routes/carriageContractor.routes";
 import getDashboardCountsRoutes from "./api/v1/routes/dashBoardCounts.routes";
+import imagesRoutes from "./api/v1/routes/images.routes";
 
 // const PORT = process.env.PORT || 5001;
 
@@ -61,6 +63,8 @@ app.use("/alloweddepots", allowedDepotRoutes);
 app.use("/ifems", ifemRoutes);
 app.use("/omcs", omcRoutes);
 app.use("/users", userRoutes);
+app.use(formidable());
+app.use("/images", imagesRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening on port : ${PORT}`);
