@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 const addImagesRepository = async (data: any) => {
   try {
     const { recordID, images } = data;
+    console.log("data", data);
     const _id = new mongoose.Types.ObjectId();
     const image = new imagesModel({
       _id,

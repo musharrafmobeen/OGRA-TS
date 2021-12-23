@@ -38,11 +38,8 @@ router.post(
   "/",
   authentication(["OMCs Supply Managers"]),
   createDispatchValidation,
+  addImages,
   addDispatch
-  // async (req, res, next) => {
-  //   console.log(req.body);
-  //   res.end("end");
-  // }
 );
 router.patch(
   "/:_id",

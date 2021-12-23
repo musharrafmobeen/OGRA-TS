@@ -2,13 +2,12 @@ import { RequestHandler } from "express";
 import { addImagesService, getImageService } from "../services/images.services";
 
 const addImages: RequestHandler = async (req, res, next) => {
-  await next();
   try {
-    //@ts-ignore
-    await addImagesService(req.fields);
+    await addImagesService(req.body);
+    console.log("adrak");
+    next();
   } catch (err: any) {
     err = JSON.parse(err.message);
-    console.log(err);
   }
 };
 
