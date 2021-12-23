@@ -20,7 +20,7 @@ import dispatchRoutes from "./api/v1/routes/dispatch.routes";
 import carriageContractorRoutes from "./api/v1/routes/carriageContractor.routes";
 import getDashboardCountsRoutes from "./api/v1/routes/dashBoardCounts.routes";
 import imagesRoutes from "./api/v1/routes/images.routes";
-
+import districtRoutes from "./api/v1/routes/districts.routes";
 // const PORT = process.env.PORT || 5001;
 
 let argPort: string;
@@ -63,6 +63,7 @@ app.use("/alloweddepots", allowedDepotRoutes);
 app.use("/ifems", ifemRoutes);
 app.use("/omcs", omcRoutes);
 app.use("/users", userRoutes);
+app.use("/districts", districtRoutes);
 app.use(formidable());
 app.use("/images", imagesRoutes);
 

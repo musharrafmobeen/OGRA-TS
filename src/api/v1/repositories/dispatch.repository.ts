@@ -108,13 +108,24 @@ const addDispatchRespository = async (data: dispatch) => {
 
 const getDispatchesRespository = async (
   id: mongoose.Types.ObjectId,
-  userRole: string
+  userRole: string,
+  status: string,
+  skip: number,
+  rows: number
 ) => {
   try {
     if (userRole === "OGRA Technical Team") {
-      const dispatches = await dispatchModel.find().exec();
+      // const dispatches = await dispatchModel.find().exec();
 
-      return dispatches;
+      const dispatches =
+        status === "all"
+          ? await dispatchModel.find().skip(skip).limit(rows).exec()
+          : await dispatchModel.find({ status }).skip(skip).limit(rows).exec();
+
+      const totalCount = await getDispatchesCounts(userRole, { status });
+      console.log(totalCount);
+
+      return { dispatches, totalCount };
     } else {
       const { OMC } = await userModel
         .findOne({ _id: id })
@@ -125,7 +136,8 @@ const getDispatchesRespository = async (
         const dispatches = await dispatchModel
           .find({ "OMC._id": OMC._id })
           .exec();
-        return dispatches;
+        const totalCount = await getDispatchesCounts(userRole, { status, OMC });
+        return { dispatches, totalCount };
       } else {
         throw new Error(
           '{"status":"Not Authorized", "statusCode":401, "errorMessage":"OMC Does Not Have Permission to get Dispatches."}'
@@ -147,7 +159,10 @@ const getDispatchesRespository = async (
 };
 
 const getPersonalDispatchesRespository = async (
-  id: mongoose.Types.ObjectId
+  id: mongoose.Types.ObjectId,
+  status: string,
+  skip: number,
+  rows: number
 ) => {
   try {
     const { primaryDepot, OMC } = await userModel
@@ -155,10 +170,31 @@ const getPersonalDispatchesRespository = async (
       .populate("OMC")
       .exec();
     if (OMC.permissions.pr03Dashboard.viewPR03) {
-      const dispatches = await dispatchModel
-        .find({ "sourceDepot._id": primaryDepot })
-        .exec();
-      return dispatches;
+      // const dispatches = await dispatchModel
+      //   .find({ "sourceDepot._id": primaryDepot })
+      //   .exec();
+
+      const dispatches =
+        status === "all"
+          ? await dispatchModel
+              .find({ "sourceDepot._id": primaryDepot })
+              .skip(skip)
+              .limit(rows)
+              .exec()
+          : await dispatchModel
+              .find({ status, "sourceDepot._id": primaryDepot })
+              .skip(skip)
+              .limit(rows)
+              .exec();
+
+      const role = "supplymanager-personalDispatches";
+
+      const totalCount = await getDispatchesCounts(role, {
+        status,
+        primaryDepot,
+      });
+
+      return { dispatches, totalCount };
     } else {
       throw new Error(
         '{"status":"Not Authorized", "statusCode":401, "errorMessage":"OMC Does Not Have Permission to Get Dispatches."}'
@@ -179,7 +215,10 @@ const getPersonalDispatchesRespository = async (
 };
 
 const getReceivingDispatchesRespository = async (
-  id: mongoose.Types.ObjectId
+  id: mongoose.Types.ObjectId,
+  status: string,
+  skip: number,
+  rows: number
 ) => {
   try {
     const { deployedDepot, OMC } = await userModel
@@ -187,11 +226,30 @@ const getReceivingDispatchesRespository = async (
       .populate("OMC")
       .exec();
     if (OMC.permissions.pr03Dashboard.viewPR03) {
-      const dispatches = await dispatchModel
-        .find({ "destinationDepot._id": deployedDepot })
-        .exec();
+      // const dispatches = await dispatchModel
+      //   .find({ "destinationDepot._id": deployedDepot })
+      //   .exec();
+      const dispatches =
+        status === "all"
+          ? await dispatchModel
+              .find({ "destinationDepot._id": deployedDepot })
+              .skip(skip)
+              .limit(rows)
+              .exec()
+          : await dispatchModel
+              .find({ status, "destinationDepot._id": deployedDepot })
+              .skip(skip)
+              .limit(rows)
+              .exec();
 
-      return dispatches;
+      const role = "supplymanager-receivingDispatches";
+
+      const totalCount = await getDispatchesCounts(role, {
+        status,
+        deployedDepot,
+      });
+
+      return { dispatches, totalCount };
     } else {
       throw new Error(
         '{"status":"Not Authorized", "statusCode":401, "errorMessage":"OMC Does Not Have Permission to Get Dispatches."}'
@@ -306,6 +364,51 @@ const deleteDispatchRespository = async (
       `{"status":"${err.status}", "statusCode":${err.statusCode}, "errorMessage":"${err.errorMessage}"}`
     );
   }
+};
+
+const getDispatchesCounts = async (
+  userRole: string,
+  data: any
+): Promise<number> => {
+  let match;
+  if (userRole === "OGRA Technical Team") {
+    match = data.status === "all" ? {} : { status: data.status };
+  } else if (userRole === "OMCs Management") {
+    match =
+      data.status === "all"
+        ? { OMC: data.OMC }
+        : { OMC: data.OMC, status: data.status };
+  } else if (userRole === "supplymanager-personalDispatches") {
+    match =
+      data.status === "all"
+        ? { "sourceDepot._id": data.primaryDepot }
+        : { "sourceDepot._id": data.primaryDepot, status: data.status };
+  } else {
+    match =
+      data.status === "all"
+        ? { "destinationDepot._id": data.deployedDepot }
+        : { "destinationDepot._id": data.deployedDepot, status: data.status };
+  }
+  console.log("match", match);
+  const count = await dispatchModel
+    .aggregate([
+      {
+        $match: match,
+      },
+      {
+        $group: {
+          _id: { status: "$status" },
+          count: { $sum: 1 },
+        },
+      },
+    ])
+    .exec();
+  let totalCount = 0;
+  for (let i = 0; i < count.length; i++) {
+    totalCount += count[i].count;
+  }
+  console.log("totalCount", totalCount);
+  return totalCount;
 };
 
 export {

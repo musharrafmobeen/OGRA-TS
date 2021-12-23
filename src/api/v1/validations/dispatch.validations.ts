@@ -3,7 +3,9 @@ import { RequestHandler } from "express";
 import { objectValidator } from "../helpers/objectValidator";
 
 const createDispatchValidation: RequestHandler = async (req, res, next) => {
+  console.log(req.body);
   const keys = ["id", "vehicle", "Drivers", "destinationDepot"];
+  console.log(await objectValidator(req.body, keys));
 
   if (await objectValidator(req.body, keys)) {
     body("id").isMongoId().run(req);

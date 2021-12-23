@@ -14,6 +14,7 @@ import {
   updateDispatchValidation,
   deleteDispatchValidation,
 } from "../validations/dispatch.validations";
+import { addImages } from "../controllers/images.controller";
 
 router.get(
   "/",
@@ -38,6 +39,10 @@ router.post(
   authentication(["OMCs Supply Managers"]),
   createDispatchValidation,
   addDispatch
+  // async (req, res, next) => {
+  //   console.log(req.body);
+  //   res.end("end");
+  // }
 );
 router.patch(
   "/:_id",

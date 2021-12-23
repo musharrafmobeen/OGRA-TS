@@ -70,11 +70,23 @@ const createOMCRespository = async (data: OMC) => {
   }
 };
 
-const getOMCsRespository = async () => {
+const getOMCsRespository = async (skip: number, rows: number) => {
   try {
-    const OMCs = await OMCsModel.find().exec();
+    const OMCs = await OMCsModel.find().skip(skip).limit(rows).exec();
+    const count = await OMCsModel.aggregate([
+      {
+        $group: {
+          _id: { OMCName: "$OMCName" },
+          count: { $sum: 1 },
+        },
+      },
+    ]).exec();
+    let totalCount = 0;
+    for (let i = 0; i < count.length; i++) {
+      totalCount += count[i].count;
+    }
 
-    return OMCs;
+    return { OMCs, totalCount };
   } catch (error) {
     throw new Error(
       '{"status":"Failed", "statusCode":500, "errorMessage":"Error occurred while getting omcs."}'

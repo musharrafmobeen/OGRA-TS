@@ -5,6 +5,7 @@ import {
   createAllowedDepot,
   updateAllowedDepot,
   deleteAllowedDepot,
+  getAllowedDepotsPagination,
 } from "../controllers/allowedDepots.controller";
 
 import {
@@ -24,6 +25,17 @@ router.get(
   ]),
   getAllowedDepots
 );
+
+router.get(
+  "/paginated",
+  authentication([
+    "OGRA Technical Team",
+    "OMCs Management",
+    "OMCs Supply Managers",
+  ]),
+  getAllowedDepotsPagination
+);
+
 router.post("/", createAllowedDepotValidation, createAllowedDepot);
 router.patch("/:_id", updateAllowedDepotValidation, updateAllowedDepot);
 router.delete("/:_id", deleteAllowedDepotValidation, deleteAllowedDepot);

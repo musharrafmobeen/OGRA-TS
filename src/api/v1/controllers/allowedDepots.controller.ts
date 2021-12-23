@@ -3,6 +3,7 @@ import {
   getAllowedDepotsService,
   updateAllowedDepotService,
   deleteAllowedDepotService,
+  getAllowedDepotsPaginationService,
 } from "../services/allowedDepots.services";
 import mongoose from "mongoose";
 import { RequestHandler } from "express";
@@ -42,6 +43,34 @@ const getAllowedDepots: RequestHandler = async (req, res, next) => {
       request: {
         type: "GET",
         URL: process.env.URL + "alloweddepots",
+      },
+    });
+  } catch (err: any) {
+    err = JSON.parse(err.message);
+    return res.status(err.statusCode).json({
+      error: {
+        status: err.status,
+        statusCode: err.statusCode,
+        errorMessage: err.errorMessage,
+      },
+      message: err.errorMessage,
+    });
+  }
+};
+
+const getAllowedDepotsPagination: RequestHandler = async (req, res, next) => {
+  try {
+    const { id, userRole, OMC } = req.body;
+    const { page, rows } = req.query;
+    const { allowedDepots, totalCount } =
+      await getAllowedDepotsPaginationService(userRole, OMC, page, rows);
+    return res.status(200).json({
+      message: "Allowed Depots Returned",
+      allowedDepots,
+      totalCount,
+      request: {
+        type: "GET",
+        URL: process.env.URL + "alloweddepots/paginated",
       },
     });
   } catch (err: any) {
@@ -116,4 +145,5 @@ export {
   getAllowedDepots,
   updateAllowedDepot,
   deleteAllowedDepot,
+  getAllowedDepotsPagination,
 };

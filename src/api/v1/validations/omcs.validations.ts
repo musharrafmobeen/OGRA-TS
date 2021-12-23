@@ -5,13 +5,13 @@ import { objectValidator } from "../helpers/objectValidator";
 const createOMCValidation: RequestHandler = async (req, res, next) => {
   const keys = [
     "OMCType",
-    "OMCLogo",
     "OMCShortName",
     "OMCName",
     "provinceWiseROQuota",
     "carriageContractors",
     "permissions",
   ];
+  console.log("body", req.body);
 
   if (await objectValidator(req.body, keys)) {
     const { carriageContractors, permissions } = req.body;
@@ -21,6 +21,10 @@ const createOMCValidation: RequestHandler = async (req, res, next) => {
     body("OMCName").isString().notEmpty().run(req);
     body("OMCLogo").isString().notEmpty().run(req);
     body("provinceWiseROQuota").isString().notEmpty().run(req);
+
+    if (!req.body.hasOwnProperty("OMCLogo")) {
+      req.body.OMCLogo = "";
+    }
 
     if (permissions === "") {
       req.body.permissions = {

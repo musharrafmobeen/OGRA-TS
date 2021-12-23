@@ -28,10 +28,30 @@ const addDispatchService = async (data: dispatch) => {
 
 const getDispatchesService = async (
   id: mongoose.Types.ObjectId,
-  userRole: string
+  userRole: string,
+  status: any,
+  page: any,
+  rows: any
 ) => {
   try {
-    return await getDispatchesRespository(id, userRole);
+    if (
+      typeof status === "string" ||
+      typeof page === "string" ||
+      typeof rows === "string"
+    ) {
+      const noOfRows = parseInt(rows);
+      const skip = (parseInt(page) - 1) * noOfRows;
+      return await getDispatchesRespository(
+        id,
+        userRole,
+        status,
+        skip,
+        noOfRows
+      );
+    }
+    throw new Error(
+      '{"status":"Invalid Data", "statusCode":422, "errorMessage":"Invalid Data Types"}'
+    );
   } catch (err: any) {
     try {
       err = JSON.parse(err.message);
@@ -46,9 +66,25 @@ const getDispatchesService = async (
   }
 };
 
-const getPersonalDispatchesService = async (id: mongoose.Types.ObjectId) => {
+const getPersonalDispatchesService = async (
+  id: mongoose.Types.ObjectId,
+  status: any,
+  page: any,
+  rows: any
+) => {
   try {
-    return await getPersonalDispatchesRespository(id);
+    if (
+      typeof status === "string" &&
+      typeof page === "string" &&
+      typeof rows === "string"
+    ) {
+      const noOfRows = parseInt(rows);
+      const skip = (parseInt(page) - 1) * noOfRows;
+      return await getPersonalDispatchesRespository(id, status, skip, noOfRows);
+    }
+    throw new Error(
+      '{"status":"Invalid Data", "statusCode":422, "errorMessage":"Invalid Data Types"}'
+    );
   } catch (err: any) {
     try {
       err = JSON.parse(err.message);
@@ -63,9 +99,30 @@ const getPersonalDispatchesService = async (id: mongoose.Types.ObjectId) => {
   }
 };
 
-const getReceivingDispatchesService = async (id: mongoose.Types.ObjectId) => {
+const getReceivingDispatchesService = async (
+  id: mongoose.Types.ObjectId,
+  status: any,
+  page: any,
+  rows: any
+) => {
   try {
-    return await getReceivingDispatchesRespository(id);
+    if (
+      typeof status === "string" ||
+      typeof page === "string" ||
+      typeof rows === "string"
+    ) {
+      const noOfRows = parseInt(rows);
+      const skip = (parseInt(page) - 1) * noOfRows;
+      return await getReceivingDispatchesRespository(
+        id,
+        status,
+        skip,
+        noOfRows
+      );
+    }
+    throw new Error(
+      '{"status":"Invalid Data", "statusCode":422, "errorMessage":"Invalid Data Types"}'
+    );
   } catch (err: any) {
     try {
       err = JSON.parse(err.message);

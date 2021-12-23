@@ -3,6 +3,7 @@ import {
   getAllowedDepotsRepository,
   updateAllowedDepotRepository,
   deleteAllowedDepotRepository,
+  getAllowedDepotsPaginationRepository,
 } from "../repositories/allowedDepots.repository";
 import mongoose from "mongoose";
 
@@ -29,6 +30,40 @@ const getAllowedDepotsService = async (
 ) => {
   try {
     return await getAllowedDepotsRepository(userRole, OMC);
+  } catch (err: any) {
+    try {
+      err = JSON.parse(err.message);
+    } catch (err) {
+      throw new Error(
+        '{"status":"Failed", "statusCode":500, "errorMessage":"Error occurred while Creating New Allowed Depot."}'
+      );
+    }
+    throw new Error(
+      `{"status":"${err.status}", "statusCode":${err.statusCode}, "errorMessage":"${err.errorMessage}"}`
+    );
+  }
+};
+
+const getAllowedDepotsPaginationService = async (
+  userRole: string,
+  OMC: mongoose.Types.ObjectId,
+  page: any,
+  rows: any
+) => {
+  try {
+    if (typeof page === "string" && typeof rows === "string") {
+      const noOfRows = parseInt(rows);
+      const skip = (parseInt(page) - 1) * noOfRows;
+      return await getAllowedDepotsPaginationRepository(
+        userRole,
+        OMC,
+        skip,
+        noOfRows
+      );
+    }
+    throw new Error(
+      '{"status":"Invalid Data", "statusCode":422, "errorMessage":"Invalid Data Types"}'
+    );
   } catch (err: any) {
     try {
       err = JSON.parse(err.message);
@@ -85,4 +120,5 @@ export {
   getAllowedDepotsService,
   updateAllowedDepotService,
   deleteAllowedDepotService,
+  getAllowedDepotsPaginationService,
 };

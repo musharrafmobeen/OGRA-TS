@@ -25,9 +25,16 @@ const createOMCService = async (data: OMC) => {
   }
 };
 
-const getOMCsService = async () => {
+const getOMCsService = async (page: any, rows: any) => {
   try {
-    return await getOMCsRespository();
+    if (typeof page === "string" && typeof rows === "string") {
+      const noOfRows = parseInt(rows);
+      const skip = (parseInt(page) - 1) * noOfRows;
+      return await getOMCsRespository(skip, noOfRows);
+    }
+    throw new Error(
+      '{"status":"Invalid Data", "statusCode":422, "errorMessage":"Invalid Data Types"}'
+    );
   } catch (error) {
     throw new Error(
       '{"status":"Failed", "statusCode":500, "errorMessage":"Error occurred while Creating New Allowed Depot."}'

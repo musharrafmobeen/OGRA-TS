@@ -1,6 +1,6 @@
 const objectValidator = async (obj: Object, keys: string[]) => {
-  for (const key in keys) {
-    if (!obj.hasOwnProperty(key)) {
+  for (let i = 0; i < keys.length; i++) {
+    if (!obj.hasOwnProperty(keys[i])) {
       return false;
     }
   }

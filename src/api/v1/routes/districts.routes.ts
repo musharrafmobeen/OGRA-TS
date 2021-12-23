@@ -13,7 +13,14 @@ import {
   deleteDistrictValidation,
 } from "../validations/districts.validations";
 
-router.get("/", getDistricts);
+router.get(
+  "/",
+  async (req, res, next) => {
+    await next();
+    console.log("adrak");
+  },
+  getDistricts
+);
 router.post("/", createDistrictValidation, createDistrict);
 router.patch("/:_id", updateDistrictValidation, updateDistrict);
 router.delete("/:_id", deleteDistrictValidation, deleteDistrict);

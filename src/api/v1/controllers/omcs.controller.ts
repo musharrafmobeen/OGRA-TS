@@ -35,11 +35,13 @@ const createOMC: RequestHandler = async (req, res, next) => {
 
 const getOMCs: RequestHandler = async (req, res, next) => {
   try {
-    const OMCs = await getOMCsService();
+    const { page, rows } = req.query;
+    const { OMCs, totalCount } = await getOMCsService(page, rows);
 
     return res.status(200).json({
       message: "OMCs Returned",
       OMCs,
+      totalCount,
       request: {
         type: "GET",
         URL: process.env.URL + "omcs",

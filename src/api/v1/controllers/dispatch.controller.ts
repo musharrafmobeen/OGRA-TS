@@ -37,11 +37,19 @@ const addDispatch: RequestHandler = async (req, res, next) => {
 const getDispatches: RequestHandler = async (req, res, next) => {
   try {
     const { userRole, id } = req.body;
-    const dispatches = await getDispatchesService(id, userRole);
+    const { status, page, rows } = req.query;
+    const { dispatches, totalCount } = await getDispatchesService(
+      id,
+      userRole,
+      status,
+      page,
+      rows
+    );
 
     return res.status(200).json({
       message: "Dispatch Returned",
       dispatches,
+      totalCount,
       request: {
         type: "GET",
         description: "Dispatch Returned",
@@ -64,10 +72,17 @@ const getDispatches: RequestHandler = async (req, res, next) => {
 const getPersonalDispatches: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.body;
-    const dispatches = await getPersonalDispatchesService(id);
+    const { status, page, rows } = req.query;
+    const { dispatches, totalCount } = await getPersonalDispatchesService(
+      id,
+      status,
+      page,
+      rows
+    );
     return res.status(200).json({
       message: "Dispatch Returned",
       dispatches,
+      totalCount,
       request: {
         type: "GET",
         description: "Dispatch Returned",
@@ -90,10 +105,17 @@ const getPersonalDispatches: RequestHandler = async (req, res, next) => {
 const getReceivingDispatches: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.body;
-    const dispatches = await getReceivingDispatchesService(id);
+    const { status, page, rows } = req.query;
+    const { dispatches, totalCount } = await getReceivingDispatchesService(
+      id,
+      status,
+      page,
+      rows
+    );
     return res.status(200).json({
       message: "Dispatch Returned",
       dispatches,
+      totalCount,
       request: {
         type: "GET",
         description: "Dispatch Returned",
