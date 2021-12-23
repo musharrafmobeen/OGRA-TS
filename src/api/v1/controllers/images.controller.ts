@@ -4,7 +4,6 @@ import { addImagesService, getImageService } from "../services/images.services";
 const addImages: RequestHandler = async (req, res, next) => {
   try {
     await addImagesService(req.body);
-    console.log("adrak");
     next();
   } catch (err: any) {
     err = JSON.parse(err.message);
