@@ -6,6 +6,7 @@ const imagesSchema = new mongoose.Schema(
     recordID: {
       type: mongoose.Schema.Types.ObjectId,
       required: [true, "recordID Field Is Required"],
+      ref: "dispatchs",
     },
     images: { type: [], default: [] },
   },

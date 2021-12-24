@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 interface dispatch {
   id: mongoose.Schema.Types.ObjectId;
+  recordID: mongoose.Types.ObjectId;
   userRole: string;
   vehicle: any;
   Drivers: Object[];

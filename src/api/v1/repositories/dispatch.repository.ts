@@ -26,7 +26,7 @@ const driversUpdate = async (Drivers: any, _id: mongoose.Types.ObjectId) => {
 
 const addDispatchRespository = async (data: dispatch) => {
   try {
-    let { OMC, id, vehicle, Drivers, destinationDepot } = data;
+    let { OMC, id, vehicle, Drivers, destinationDepot, recordID } = data;
     const OMC_OBJ = await omcModel.findById(OMC).exec();
     if (OMC_OBJ.permissions.pr03Dashboard.createPR03) {
       const dispatch = await dispatchModel
@@ -49,7 +49,7 @@ const addDispatchRespository = async (data: dispatch) => {
           .findOne({ _id: dispatchDataEntryUserId.primaryDepot })
           .exec();
 
-        const _id = new mongoose.Types.ObjectId();
+        const _id = recordID;
 
         const updatedVehicle = await vehiclesModel
           .findOneAndUpdate(

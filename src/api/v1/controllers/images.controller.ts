@@ -1,8 +1,10 @@
 import { RequestHandler } from "express";
 import { addImagesService, getImageService } from "../services/images.services";
+import mongoose from "mongoose";
 
 const addImages: RequestHandler = async (req, res, next) => {
   try {
+    req.body.recordID = new mongoose.Types.ObjectId();
     await addImagesService(req.body);
     next();
   } catch (err: any) {

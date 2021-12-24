@@ -55,9 +55,7 @@ const userLogInRespository = async (data: {
   try {
     let userDoc = await userModel
       .findOne({ userName: data.userName })
-      .populate("OMC userIFEMLocation deployedDepot primaryDepot")
-      //@ts-ignore
-      .cache();
+      .populate("OMC userIFEMLocation deployedDepot primaryDepot");
 
     console.log(userDoc);
 
