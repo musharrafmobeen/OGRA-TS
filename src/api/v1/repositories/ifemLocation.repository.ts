@@ -41,7 +41,10 @@ const addIfemLocationRepository = async (data: ifemLocation) => {
 
 const getIfemLocationRepository = async () => {
   try {
-    const IFEM_Locations = await ifemModel.find().populate("district").exec();
+    const IFEM_Locations = await ifemModel
+      .find({ isDeleted: false })
+      .populate("district")
+      .exec();
     return IFEM_Locations;
   } catch (error) {
     throw new Error(
