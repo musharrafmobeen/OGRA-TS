@@ -133,10 +133,27 @@ const getDispatchesRespository = async (
         .exec();
       if (OMC.permissions.pr03Dashboard.viewPR03) {
         // if (updated === true || updated === undefined) {
-        const dispatches = await dispatchModel
-          .find({ "OMC._id": OMC._id })
-          .exec();
-        const totalCount = await getDispatchesCounts(userRole, { status, OMC });
+        console.log("status", status);
+
+        const dispatches =
+          status === "all"
+            ? await dispatchModel
+                .find({ "OMC._id": OMC._id })
+                .skip(skip)
+                .limit(rows)
+                .exec()
+            : await dispatchModel
+                .find({ status, "OMC._id": OMC._id })
+                .skip(skip)
+                .limit(rows)
+                .exec();
+
+        console.log("dispacthes", dispatches);
+
+        const totalCount = await getDispatchesCounts(userRole, {
+          status,
+          OMC: OMC._id,
+        });
         return { dispatches, totalCount };
       } else {
         throw new Error(
@@ -376,8 +393,8 @@ const getDispatchesCounts = async (
   } else if (userRole === "OMCs Management") {
     match =
       data.status === "all"
-        ? { OMC: data.OMC }
-        : { OMC: data.OMC, status: data.status };
+        ? { "OMC._id": data.OMC }
+        : { "OMC._id": data.OMC, status: data.status };
   } else if (userRole === "supplymanager-personalDispatches") {
     match =
       data.status === "all"
